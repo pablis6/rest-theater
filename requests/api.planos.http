@@ -1,0 +1,74 @@
+### Get all planos
+GET http://localhost:1993/api/v1/planos
+
+### Crear un plano
+POST http://localhost:1993/api/v1/planos
+Content-Type: application/json
+
+{
+    "id_representacion": "669127feabc52919063b6fd6"
+}
+
+### Obtiene un plano
+GET http://localhost:1993/api/v1/planos/66912d3ee564299d36152202
+
+### Borrar un plano
+DELETE http://localhost:1993/api/v1/planos/669456e81d7d69262946f69b
+
+### Actualizar un plano
+PUT http://localhost:1993/api/v1/planos/66912d3ee564299d36152202
+Content-Type: application/json
+
+{
+    "butacas": [
+        {
+            "fila": 2,
+            "num_butaca": 24,
+            "estado": "Libre"
+        },
+        {
+            "fila": 2,
+            "num_butaca": 22,
+            "estado": "Libre"
+        },
+        {
+            "fila": 2,
+            "num_butaca": 20,
+            "estado": "Libre"
+        },
+        {
+            "fila": 3,
+            "num_butaca": 24,
+            "estado": "Libre"
+        },
+        {
+            "fila": 3,
+            "num_butaca": 22,
+            "estado": "Libre"
+        },
+        {
+            "fila": 3,
+            "num_butaca": 20,
+            "estado": "Libre"
+        }
+  ]
+}
+
+### Actualizar algunas butacas de un plano
+PATCH http://localhost:1993/api/v1/planos/66912d3ee564299d36152202
+Content-Type: application/json
+
+{
+    "butacas": [
+        {
+            "fila": 2,
+            "num_butaca": 22,
+            "estado": "Libre"
+        },
+        {
+            "fila": 2,
+            "num_butaca": 20,
+            "estado": "Libre"
+        }
+  ]
+}

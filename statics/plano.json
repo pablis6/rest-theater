@@ -1,0 +1,14 @@
+{
+  "butacas": [
+    {
+      "fila": 1,
+      "num_butaca": 24,
+      "estado": "Libre"
+    },
+    {
+      "fila": 1,
+      "num_butaca": 24,
+      "estado": "Libre"
+    }
+  ]
+}

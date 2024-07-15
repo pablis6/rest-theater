@@ -1,0 +1,30 @@
+### Get all representaciones
+GET http://localhost:1993/api/v1/representaciones
+
+### Crear una representacion
+POST http://localhost:1993/api/v1/representaciones
+Content-Type: application/json
+
+{
+    "fecha": "2024-07-12",
+    "sesion": "Tarde",
+    "id_obra": "668efb7",
+    "id_grupo": "soeihfiopwe"
+}
+
+### Obtiene una representacion
+GET http://localhost:1993/api/v1/representaciones/669122c95faf356fb70c4ce7
+
+### Borrar una representacion
+DELETE http://localhost:1993/api/v1/representaciones/669122c95faf356fb70c4ce7
+
+### Actualizar una representacion
+PATCH http://localhost:1993/api/v1/representaciones/669122c95faf356fb70c4ce7
+Content-Type: application/json
+
+{
+    "fecha": "2024-07-12",
+    "sesion": "Mañana",
+    "id_obra": "668efb7",
+    "id_grupo": "soeihfiopwe"
+}

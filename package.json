@@ -1,0 +1,19 @@
+{
+  "name": "rest-theater",
+  "version": "1.0.0",
+  "description": "Servicios rest para aplicacion gestora de entradas de teatro.",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --watch app.js"
+  },
+  "keywords": [],
+  "author": "Pablo Fernandez Grado (https://github.com/pablis6)",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "16.4.5",
+    "express": "4.19.2",
+    "mongodb": "6.8.0",
+    "zod": "3.23.8"
+  }
+}

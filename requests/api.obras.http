@@ -1,0 +1,27 @@
+### Prueba de API
+GET http://localhost:1993
+
+### Get all obras
+GET http://localhost:1993/api/v1/obras
+
+### Crear una obra
+POST http://localhost:1993/api/v1/obras
+Content-Type: application/json
+
+{
+    "name": "Sirenita"
+}
+
+### Obtiene una obra
+GET http://localhost:1993/api/v1/obras/668efb7afddba107257750e4
+
+### Borrar una obra
+DELETE http://localhost:1993/api/v1/obras/668efb7ffddba107257750e5
+
+### Actualizar una obra
+PATCH http://localhost:1993/api/v1/obras/668efb7ffddba107257750e5
+Content-Type: application/json
+
+{
+    "name": "La Sirenita"
+}
