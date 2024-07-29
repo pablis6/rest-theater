@@ -42,10 +42,10 @@ export class GrupoModel {
 
   static async update({ id, grupo }) {
     const db = await connect();
-    const { modifiedCount } = await db.updateOne(
+    const { matchedCount } = await db.updateOne(
       { _id: new ObjectId(id) },
       { $set: grupo }
     );
-    return modifiedCount > 0 ? grupo : null;
+    return matchedCount > 0 ? grupo : null;
   }
 }

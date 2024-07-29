@@ -16,7 +16,7 @@ async function connect() {
 export class ObraModel {
   static async getAll() {
     const db = await connect();
-    return db.find({}).toArray();
+    return db?.find({}).toArray();
   }
 
   static async getById({ id }) {
@@ -42,10 +42,10 @@ export class ObraModel {
   //TODO: Update an existing obra
   static async update({ id, obra }) {
     const db = await connect();
-    const { modifiedCount } = await db.updateOne(
+    const { matchedCount } = await db.updateOne(
       { _id: new ObjectId(id) },
       { $set: obra }
     );
-    return modifiedCount > 0 ? obra : null;
+    return matchedCount > 0 ? obra : null;
   }
 }

@@ -41,11 +41,11 @@ export class PlanoModel {
 
   static async update({ id, plano }) {
     const db = await connect();
-    const { modifiedCount } = await db.updateOne(
+    const { matchedCount } = await db.updateOne(
       { _id: new ObjectId(id) },
       { $set: plano }
     );
-    return modifiedCount > 0 ? plano : null;
+    return matchedCount > 0 ? plano : null;
   }
 
   static async updateSeat({ id, plano }) {

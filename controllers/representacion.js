@@ -31,7 +31,7 @@ export class RepresentacionController {
       representacion: representacion.data,
     });
 
-    res.json({ newRepresentacion });
+    res.json({ id: newRepresentacion._id, ...newRepresentacion });
   };
 
   update = async (req, res) => {

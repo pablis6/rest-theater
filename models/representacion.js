@@ -41,10 +41,10 @@ export class RepresentacionModel {
 
   static async update({ id, representacion }) {
     const db = await connect();
-    const { modifiedCount } = await db.updateOne(
+    const { matchedCount } = await db.updateOne(
       { _id: new ObjectId(id) },
       { $set: representacion }
     );
-    return modifiedCount > 0 ? representacion : null;
+    return matchedCount > 0 ? { id, ...representacion } : null;
   }
 }

@@ -1,5 +1,5 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
 import "dotenv/config";
+import { MongoClient, ServerApiVersion } from "mongodb";
 
 // La URI de conexión y la configuración del cliente de MongoDB se mantienen iguales
 const uri = process.env.MONGO_URI;
@@ -20,7 +20,7 @@ async function run() {
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
-  } catch {
+  } catch (error) {
     console.error("Error connecting to the database");
     console.error(error);
   } finally {

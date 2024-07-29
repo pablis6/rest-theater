@@ -1,3 +1,4 @@
+import cors from "cors";
 import express, { json } from "express";
 import { GrupoModel } from "./models/grupo.js";
 import { ObraModel } from "./models/obra.js";
@@ -11,6 +12,17 @@ import { createRepresentacionRouterV1 } from "./routes/representacionesV1.js";
 const app = express();
 
 app.use(json());
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      const whitelist = ["http://localhost:4200"];
+      if (whitelist.includes(origin) || !origin) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS"));
+    },
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("<h1>Servidor despierto!</h1>");

@@ -6,25 +6,28 @@ POST http://localhost:1993/api/v1/representaciones
 Content-Type: application/json
 
 {
-    "fecha": "2024-07-12",
-    "sesion": "Tarde",
-    "id_obra": "668efb7",
-    "id_grupo": "soeihfiopwe"
+    "fecha": "2024-07-25",
+    "grupo": "Primaria",
+    "grupo_id": "668fa4decac8ffe2ae00b379",
+    "obra": "Aladdín",
+    "obra_id": "668ed8de0555e46f815d4a34",
+    "sesion": "Mañana"
 }
 
 ### Obtiene una representacion
 GET http://localhost:1993/api/v1/representaciones/669122c95faf356fb70c4ce7
 
 ### Borrar una representacion
-DELETE http://localhost:1993/api/v1/representaciones/669122c95faf356fb70c4ce7
+DELETE http://localhost:1993/api/v1/representaciones/669a76dfd8559184e43e0602
 
 ### Actualizar una representacion
-PATCH http://localhost:1993/api/v1/representaciones/669122c95faf356fb70c4ce7
+PATCH http://localhost:1993/api/v1/representaciones/669127feabc52919063b6fd6
 Content-Type: application/json
 
 {
-    "fecha": "2024-07-12",
+    "id": "669127feabc52919063b6fd6",
+    "fecha": "2024-07-20",
     "sesion": "Mañana",
-    "id_obra": "668efb7",
-    "id_grupo": "soeihfiopwe"
+    "id_obra": "668ed8de0555e46f815d4a34",
+    "id_grupo": "668fa4becac8ffe2ae00b377"
 }
