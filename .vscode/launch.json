@@ -17,6 +17,13 @@
       "name": "Launch mongo",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}\\models\\mongo.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch mongoose",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}\\modelsMongoose\\mongoose.js"
     }
   ]
 }

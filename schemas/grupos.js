@@ -1,9 +1,18 @@
-import z from "zod";
+import { Schema } from "mongoose";
 
-const grupoSchema = z.object({
-  name: z.string().min(1),
+export const grupoSchema = new Schema({
+  name: {
+    type: String,
+    required: [true, "Nombre obligatorio"],
+    minlength: [5, "Nombre demasiado corto"],
+    unique: [true, "Grupo ya existente"],
+  },
 });
 
-export function validateGrupo(grupo) {
-  return grupoSchema.safeParse(grupo);
-}
+grupoSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id;
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});

@@ -1,81 +1,78 @@
-import { ObjectId } from "mongodb";
-import { client } from "./mongo.js";
+import { model } from "mongoose";
+import { planoSchema } from "../schemas/planos.js";
 
-async function connect() {
-  try {
-    await client.connect();
-    const database = client.db("theater_db");
-    return database.collection("planos");
-  } catch (error) {
-    console.error("Error connecting to the database");
-    console.error(error);
-    await client.close();
-  }
-}
+export const Plano = model("Plano", planoSchema);
 
 export class PlanoModel {
-  static async getAll() {
-    const db = await connect();
-    return db.find({}).toArray();
+  static getAll() {
+    return Plano.find({});
   }
 
-  static async getById({ id }) {
-    const db = await connect();
-    return await db.findOne({ _id: new ObjectId(id) });
+  static getByRepresentacionId({ id }) {
+    return Plano.findOne({ representacion: id });
   }
 
-  static async create({ plano }) {
-    const db = await connect();
-
-    const { insertedId } = await db.insertOne(plano);
-    return {
-      ...plano,
-      id: insertedId,
-    };
+  static create({ plano }) {
+    return new Plano(plano).save();
   }
 
-  static async delete({ id }) {
-    const db = await connect();
-    return await db.deleteOne({ _id: new ObjectId(id) });
+  static update({ id, plano }) {
+    return Plano.findByIdAndUpdate(id, plano, { new: true });
   }
 
-  static async update({ id, plano }) {
-    const db = await connect();
-    const { matchedCount } = await db.updateOne(
-      { _id: new ObjectId(id) },
-      { $set: plano }
-    );
-    return matchedCount > 0 ? plano : null;
-  }
-
-  static async updateSeat({ id, plano }) {
-    const db = await connect();
-
-    const updateDocument = {
-      $set: {
-        "butacas.$[elem].estado": plano.butacas[0]?.estado,
-        "butacas.$[elem].asignadoA": plano.butacas[0]?.asignadoA,
-      },
-    };
-    const arrayFilters = [
+  //TODO: Implementar el método updateSeat
+  static updateSeat({ id, butacas }) {
+    return Plano.findOneAndUpdate(
+      { representacion: id },
       {
-        $or: plano.butacas.map((butaca) => {
-          return {
-            $and: [
-              {
-                "elem.fila": { $eq: butaca.fila },
-                "elem.num_butaca": { $eq: butaca.num_butaca },
-              },
-            ],
-          };
-        }),
+        $set: {
+          butacas,
+        },
       },
-    ];
+      { new: true }
+    );
+    // Plano.findOneAndUpdate(
+    //   { representacion: id },
+    //   {
+    //     $set: {
+    //       butacas: butacas,
+    //     },
+    //   },
+    //   { new: true }
+    // );
 
-    const ret = await db.updateOne({ _id: new ObjectId(id) }, updateDocument, {
-      arrayFilters,
-    });
+    // const db = connect();
+    // const updateDocument = {
+    //   $set: {
+    //     "butacas.$[elem].estado": plano.butacas[0]?.estado,
+    //     "butacas.$[elem].asignadoA": plano.butacas[0]?.asignadoA,
+    //   },
+    // };
+    // const arrayFilters = [
+    //   {
+    //     $or: plano.butacas.map((butaca) => {
+    //       return {
+    //         $and: [
+    //           {
+    //             "elem.fila": { $eq: butaca.fila },
+    //             "elem.num_butaca": { $eq: butaca.num_butaca },
+    //           },
+    //         ],
+    //       };
+    //     }),
+    //   },
+    // ];
+    // const ret = await db.updateOne({ _id: new ObjectId(id) }, updateDocument, {
+    //   arrayFilters,
+    // });
+    // return ret;
+  }
 
-    return ret;
+  static delete({ id }) {
+    return Plano.findByIdAndDelete(id);
+  }
+
+  static deleteFromRepresentacion({ representacionId }) {
+    return Plano.findOneAndDelete({ representacion: representacionId });
   }
 }

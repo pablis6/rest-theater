@@ -1,51 +1,26 @@
-import { ObjectId } from "mongodb";
-import { client } from "./mongo.js";
+import { model } from "mongoose";
+import { grupoSchema } from "../schemas/grupos.js";
 
-// Función para conectar a la base de datos y obtener la colección de grupos
-async function connect() {
-  try {
-    await client.connect();
-    const database = client.db("theater_db");
-    return database.collection("grupos");
-  } catch (error) {
-    console.error("Error connecting to the database");
-    console.error(error);
-    await client.close();
-  }
-}
+export const Grupo = model("Grupo", grupoSchema);
 
 export class GrupoModel {
-  static async getAll() {
-    const db = await connect();
-    return db.find({}).toArray();
+  static getAll() {
+    return Grupo.find({});
   }
 
-  static async getById({ id }) {
-    const db = await connect();
-    return await db.findOne({ _id: new ObjectId(id) });
+  static getById({ id }) {
+    return Grupo.findById(id);
   }
 
-  static async create({ grupo }) {
-    const db = await connect();
-
-    const { insertedId } = await db.insertOne(grupo);
-    return {
-      ...grupo,
-      id: insertedId,
-    };
+  static create({ grupo }) {
+    return new Grupo(grupo).save();
   }
 
-  static async delete({ id }) {
-    const db = await connect();
-    return await db.deleteOne({ _id: new ObjectId(id) });
+  static update({ id, grupo }) {
+    return Grupo.findByIdAndUpdate(id, grupo, { new: true });
   }
 
-  static async update({ id, grupo }) {
-    const db = await connect();
-    const { matchedCount } = await db.updateOne(
-      { _id: new ObjectId(id) },
-      { $set: grupo }
-    );
-    return matchedCount > 0 ? grupo : null;
+  static delete({ id }) {
+    return Grupo.findByIdAndDelete(id);
   }
 }

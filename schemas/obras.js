@@ -1,9 +1,18 @@
-import z from "zod";
+import { Schema } from "mongoose";
 
-const obraSchema = z.object({
-  name: z.string().min(1),
+export const obraSchema = new Schema({
+  name: {
+    type: String,
+    required: [true, "Nombre obligatorio"],
+    minlength: [5, "Nombre demasiado corto"],
+    unique: [true, "Obra ya existente"],
+  },
 });
 
-export function validateObra(obra) {
-  return obraSchema.safeParse(obra);
-}
+obraSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id;
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});

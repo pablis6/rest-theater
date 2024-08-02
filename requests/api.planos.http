@@ -6,7 +6,7 @@ POST http://localhost:1993/api/v1/planos
 Content-Type: application/json
 
 {
-    "id_representacion": "669127feabc52919063b6fd6"
+    "representacion": "669127feabc52919063b6fd6"
 }
 
 ### Obtiene un plano
@@ -55,20 +55,17 @@ Content-Type: application/json
 }
 
 ### Actualizar algunas butacas de un plano
-PATCH http://localhost:1993/api/v1/planos/66912d3ee564299d36152202
+PATCH http://localhost:1993/api/v1/planos/66aacba47979dc8e22be84d0
 Content-Type: application/json
 
 {
     "butacas": [
-        {
-            "fila": 2,
-            "num_butaca": 22,
-            "estado": "Libre"
-        },
-        {
-            "fila": 2,
-            "num_butaca": 20,
-            "estado": "Libre"
-        }
-  ]
+        [
+            {"fila":2,"num_butaca":24,"estado":"Libre","_id":"66aacba47979dc8e22be84d5"},
+            {"fila":2,"num_butaca":22,"estado":"Libre","_id":"66aacba47979dc8e22be84d6"}
+        ],[
+            {"fila":1,"num_butaca":24,"estado":"Libre","_id":"66aacba47979dc8e22be84d7"},
+            {"fila":1,"num_butaca":22,"estado":"Ocupada","_id":"66aacba47979dc8e22be84d8","asignadoA":"Pablo"}
+        ]
+    ]
 }

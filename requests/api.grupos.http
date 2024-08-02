@@ -1,24 +1,24 @@
 ### Get all grupos
 GET http://localhost:1993/api/v1/grupos
 
-### Crear una grupo
+### Obtiene un grupo
+GET http://localhost:1993/api/v1/grupos/668fa4becac8ffe2ae00b377
+
+### Crear un grupo
 POST http://localhost:1993/api/v1/grupos
 Content-Type: application/json
 
 {
-    "name": "Primaria"
+    "name": "Adultos2"
 }
 
-### Obtiene una grupo
-GET http://localhost:1993/api/v1/grupos/668fa4becac8ffe2ae00b377
+### Borrar un grupo
+DELETE http://localhost:1993/api/v1/grupos/66a7886dce407a8d1833808f
 
-### Borrar una grupo
-DELETE http://localhost:1993/api/v1/grupos/668fa4d3cac8ffe2ae00b378
-
-### Actualizar una grupo
-PATCH http://localhost:1993/api/v1/grupos/668fa4e9cac8ffe2ae00b37a
+### Actualizar un grupo
+PATCH http://localhost:1993/api/v1/grupos/66a7886dce407a8d1833808f
 Content-Type: application/json
 
 {
-    "name": "ESO / Bachiller"
+    "name": "Modificado"
 }
