@@ -13,6 +13,8 @@ export const createPlanoRouterV1 = ({ planoModel }) => {
   planoRouter.post("/", planoController.create);
 
   planoRouter.get("/:id", planoController.getById);
+  planoRouter.get("/:id/butacasOcupadas", planoController.getOccupiedSeats);
+  planoRouter.get("/:id/nombresButacas", planoController.getNameSeats);
   planoRouter.patch("/:id", planoController.updateSeat);
   planoRouter.put("/:id", planoController.update);
   planoRouter.delete("/:id", planoController.delete);

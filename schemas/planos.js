@@ -5,6 +5,7 @@ export const planoSchema = new Schema({
   butacas: [
     [
       {
+        zona: { type: String, enum: ["patio", "entresuelo"], required: true },
         fila: { type: Number, required: true },
         num_butaca: { type: Number, required: true },
         estado: {

@@ -9,8 +9,8 @@ Content-Type: application/json
     "representacion": "669127feabc52919063b6fd6"
 }
 
-### Obtiene un plano
-GET http://localhost:1993/api/v1/planos/66912d3ee564299d36152202
+### Obtiene un plano a partir de una representacion
+GET http://localhost:1993/api/v1/planos/66ac7900134b0d301199ad5a
 
 ### Borrar un plano
 DELETE http://localhost:1993/api/v1/planos/669456e81d7d69262946f69b
@@ -69,3 +69,9 @@ Content-Type: application/json
         ]
     ]
 }
+
+### Obtener nombres de las butacas de un plano
+GET http://localhost:1993/api/v1/planos/66ac7900134b0d301199ad5a/nombresButacas
+
+### Obtener las butacas ocupadas de un plano
+GET http://localhost:1993/api/v1/planos/66ac7900134b0d301199ad5a/butacasOcupadas

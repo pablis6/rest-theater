@@ -33,6 +33,24 @@ export class PlanoController {
     res.json(plano);
   };
 
+  getNameSeats = async (req, res) => {
+    const { id } = req.params;
+    const nameSeats = await this.planoModel.getNameSeats({ id });
+    if (!nameSeats) {
+      return res.status(404).json({ message: "Plano no encontrado." });
+    }
+    res.json(nameSeats[0].asignadoA);
+  };
+
+  getOccupiedSeats = async (req, res) => {
+    const { id } = req.params;
+    const occupiedSeats = await this.planoModel.getOccupiedSeats({ id });
+    if (!occupiedSeats) {
+      return res.status(404).json({ message: "Plano no encontrado." });
+    }
+    res.json(occupiedSeats);
+  };
+
   /**
    * Crea un nuevo plano.
    * @param {Object} req - El objeto de solicitud.

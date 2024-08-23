@@ -1,4 +1,4 @@
-import { model } from "mongoose";
+import { model, Types } from "mongoose";
 import { planoSchema } from "../schemas/planos.js";
 
 export const Plano = model("Plano", planoSchema);
@@ -10,6 +10,29 @@ export class PlanoModel {
 
   static getByRepresentacionId({ id }) {
     return Plano.findOne({ representacion: id });
+  }
+
+  static getNameSeats({ id }) {
+    return Plano.aggregate([
+      { $match: { representacion: Types.ObjectId.createFromHexString(id) } }, // Condiciones de búsqueda
+      { $unwind: "$butacas" }, // Descomponer el primer nivel del array
+      { $unwind: "$butacas" }, // Descomponer el segundo nivel del array
+      { $group: { _id: null, asignados: { $addToSet: "$butacas.asignadoA" } } }, // Agrupar y obtener valores distintos
+      { $unwind: "$asignados" }, // Descomponer el array asignados en documentos individuales
+      { $sort: { asignados: 1 } }, // Ordenar en orden ascendente
+      { $group: { _id: null, asignados: { $push: "$asignados" } } }, // Agrupar de nuevo en un array
+      { $project: { _id: 0, asignadoA: "$asignados" } }, // Proyección para excluir el campo _id
+    ]).exec();
+  }
+
+  static getOccupiedSeats({ id }) {
+    return Plano.aggregate([
+      { $match: { representacion: Types.ObjectId.createFromHexString(id) } }, // Condiciones de búsqueda
+      { $unwind: "$butacas" }, // Descomponer el primer nivel del array
+      { $unwind: "$butacas" }, // Descomponer el segundo nivel del array
+      { $match: { "butacas.estado": "Ocupada" } }, // Filtrar por estado "Ocupada"
+      { $project: { id: "$_id", butaca: "$butacas", _id: 0 } },
+    ]).exec();
   }
 
   static create({ plano }) {
