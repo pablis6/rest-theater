@@ -31,7 +31,8 @@ export class PlanoModel {
       { $unwind: "$butacas" }, // Descomponer el primer nivel del array
       { $unwind: "$butacas" }, // Descomponer el segundo nivel del array
       { $match: { "butacas.estado": "Ocupada" } }, // Filtrar por estado "Ocupada"
-      { $project: { id: "$_id", butaca: "$butacas", _id: 0 } },
+      { $replaceRoot: { newRoot: "$butacas" } }, // Reemplazar el documento raíz con el contenido de butacas
+      // { $project: { butaca: "$butacas", _id: 0 } },
     ]).exec();
   }
 

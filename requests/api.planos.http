@@ -71,7 +71,7 @@ Content-Type: application/json
 }
 
 ### Obtener nombres de las butacas de un plano
-GET http://localhost:1993/api/v1/planos/66ac7900134b0d301199ad5a/nombresButacas
+GET http://localhost:1993/api/v1/planos/66cdfabb9a1fab32ab031842/nombresButacas
 
 ### Obtener las butacas ocupadas de un plano
-GET http://localhost:1993/api/v1/planos/66ac7900134b0d301199ad5a/butacasOcupadas
+GET http://localhost:1993/api/v1/planos/66cdfabb9a1fab32ab031842/butacasOcupadas
