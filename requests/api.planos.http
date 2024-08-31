@@ -6,11 +6,11 @@ POST http://localhost:1993/api/v1/planos
 Content-Type: application/json
 
 {
-    "id_representacion": "669127feabc52919063b6fd6"
+    "representacion": "669127feabc52919063b6fd6"
 }
 
-### Obtiene un plano
-GET http://localhost:1993/api/v1/planos/66912d3ee564299d36152202
+### Obtiene un plano a partir de una representacion
+GET http://localhost:1993/api/v1/planos/66ac7900134b0d301199ad5a
 
 ### Borrar un plano
 DELETE http://localhost:1993/api/v1/planos/669456e81d7d69262946f69b
@@ -55,20 +55,23 @@ Content-Type: application/json
 }
 
 ### Actualizar algunas butacas de un plano
-PATCH http://localhost:1993/api/v1/planos/66912d3ee564299d36152202
+PATCH http://localhost:1993/api/v1/planos/66aacba47979dc8e22be84d0
 Content-Type: application/json
 
 {
     "butacas": [
-        {
-            "fila": 2,
-            "num_butaca": 22,
-            "estado": "Libre"
-        },
-        {
-            "fila": 2,
-            "num_butaca": 20,
-            "estado": "Libre"
-        }
-  ]
+        [
+            {"fila":2,"num_butaca":24,"estado":"Libre","_id":"66aacba47979dc8e22be84d5"},
+            {"fila":2,"num_butaca":22,"estado":"Libre","_id":"66aacba47979dc8e22be84d6"}
+        ],[
+            {"fila":1,"num_butaca":24,"estado":"Libre","_id":"66aacba47979dc8e22be84d7"},
+            {"fila":1,"num_butaca":22,"estado":"Ocupada","_id":"66aacba47979dc8e22be84d8","asignadoA":"Pablo"}
+        ]
+    ]
 }
+
+### Obtener nombres de las butacas de un plano
+GET http://localhost:1993/api/v1/planos/66cdfabb9a1fab32ab031842/nombresButacas
+
+### Obtener las butacas ocupadas de un plano
+GET http://localhost:1993/api/v1/planos/66cdfabb9a1fab32ab031842/butacasOcupadas

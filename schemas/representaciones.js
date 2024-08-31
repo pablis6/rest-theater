@@ -1,12 +1,32 @@
-import z from "zod";
+import { Schema } from "mongoose";
 
-const representacionSchema = z.object({
-  fecha: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  sesion: z.enum(["Mañana", "Tarde"]),
-  id_obra: z.string(),
-  id_grupo: z.string(),
+export const representacionSchema = new Schema({
+  fecha: {
+    type: String,
+    required: [true, "Fecha obligatoria"],
+    match: [/^\d{4}-\d{2}-\d{2}$/, "Formato de fecha incorrecto"],
+  },
+  sesion: {
+    type: String,
+    required: [true, "Sesión obligatoria"],
+    enum: ["Mañana", "Tarde"],
+  },
+  obra: {
+    type: Schema.Types.ObjectId,
+    ref: "Obra",
+    required: [true, "Obra obligatoria"],
+  },
+  grupo: {
+    type: Schema.Types.ObjectId,
+    ref: "Grupo",
+    required: [true, "Grupo obligatorio"],
+  },
 });
 
-export function validateRepresentacion(representacion) {
-  return representacionSchema.safeParse(representacion);
-}
+representacionSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id;
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});

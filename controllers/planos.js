@@ -1,4 +1,3 @@
-import { validatePartialPlano, validatePlano } from "../schemas/planos.js";
 import { readJSON } from "../utils.js";
 
 const { butacas } = readJSON("./statics/plano.json");
@@ -20,18 +19,36 @@ export class PlanoController {
   };
 
   /**
-   * Obtiene un plano por su ID.
+   * Obtiene un plano por el ID de su representacion.
    * @param {Object} req - El objeto de solicitud HTTP.
    * @param {Object} res - El objeto de respuesta HTTP.
    * @returns {Object} - El plano encontrado.
    */
   getById = async (req, res) => {
     const { id } = req.params;
-    const plano = await this.planoModel.getById({ id });
+    const plano = await this.planoModel.getByRepresentacionId({ id });
     if (!plano) {
       return res.status(404).json({ message: "Plano no encontrado." });
     }
     res.json(plano);
+  };
+
+  getNameSeats = async (req, res) => {
+    const { id } = req.params;
+    const nameSeats = await this.planoModel.getNameSeats({ id });
+    if (!nameSeats) {
+      return res.status(404).json({ message: "Plano no encontrado." });
+    }
+    res.json(nameSeats[0].asignadoA);
+  };
+
+  getOccupiedSeats = async (req, res) => {
+    const { id } = req.params;
+    const occupiedSeats = await this.planoModel.getOccupiedSeats({ id });
+    if (!occupiedSeats) {
+      return res.status(404).json({ message: "Plano no encontrado." });
+    }
+    res.json(occupiedSeats);
   };
 
   /**
@@ -41,16 +58,13 @@ export class PlanoController {
    * @returns {Object} El plano recién creado.
    */
   create = async (req, res) => {
-    req.body.butacas = butacas;
-    const plano = validatePlano(req.body);
-
-    if (plano.error) {
-      return res.status(400).json({ error: JSON.parse(plano.error.message) });
+    try {
+      req.body.butacas = butacas;
+      const newPlano = await this.planoModel.create({ plano: req.body });
+      return res.json(newPlano);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
     }
-    const newPlano = await this.planoModel.create({
-      plano: plano.data,
-    });
-    res.json(newPlano);
   };
 
   /**
@@ -60,39 +74,32 @@ export class PlanoController {
    * @returns {Object} - El objeto JSON actualizado.
    */
   update = async (req, res) => {
-    const { id } = req.params;
-    const plano = validatePartialPlano(req.body);
-
-    if (plano.error) {
-      return res.status(400).json({ error: JSON.parse(plano.error.message) });
+    try {
+      const { id } = req.params;
+      const updated = await this.grupoModel.update({ id, grupo: req.body });
+      if (!updated) {
+        return res.status(404).json({ message: "Plano no encontrado." });
+      }
+      return res.json(updated);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
     }
-
-    const updated = await this.planoModel.update({
-      id,
-      plano: plano.data,
-    });
-    if (!updated) {
-      return res.status(404).json({ message: "Plano no encontrado." });
-    }
-    res.json(updated);
   };
 
   updateSeat = async (req, res) => {
-    const { id } = req.params;
-    const plano = validatePartialPlano(req.body);
-
-    if (plano.error) {
-      return res.status(400).json({ error: JSON.parse(plano.error.message) });
+    try {
+      const { id } = req.params;
+      const updated = await this.planoModel.updateSeat({
+        id,
+        butacas: req.body,
+      });
+      if (!updated) {
+        return res.status(404).json({ message: "Plano no encontrado." });
+      }
+      return res.json(updated);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
     }
-
-    const updated = await this.planoModel.updateSeat({
-      id,
-      plano: plano.data,
-    });
-    if (!updated) {
-      return res.status(404).json({ message: "Plano no encontrado." });
-    }
-    res.json(updated);
   };
 
   /**
@@ -102,12 +109,16 @@ export class PlanoController {
    * @returns {Object} - El objeto de respuesta con un mensaje indicando si el plano fue borrado o no.
    */
   delete = async (req, res) => {
-    const { id } = req.params;
+    try {
+      const { id } = req.params;
+      const grupo = await this.planoModel.delete({ id });
 
-    const deleted = await this.planoModel.delete({ id });
-    if (!deleted) {
-      return res.status(404).json({ message: "Plano no encontrado." });
+      if (!grupo) {
+        return res.status(404).json({ message: "Plano no encontrado." });
+      }
+      return res.json({ message: "Plano borrado." });
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
     }
-    return res.json({ message: "Plano borrada." });
   };
 }

@@ -1,6 +1,7 @@
 import cors from "cors";
 import express, { json } from "express";
 import { GrupoModel } from "./models/grupo.js";
+import "./models/mongo.js";
 import { ObraModel } from "./models/obra.js";
 import { PlanoModel } from "./models/plano.js";
 import { RepresentacionModel } from "./models/representacion.js";
@@ -34,7 +35,10 @@ app.use("/api/v1/grupos", createGrupoRouterV1({ grupoModel: GrupoModel }));
 
 app.use(
   "/api/v1/representaciones",
-  createRepresentacionRouterV1({ representacionModel: RepresentacionModel })
+  createRepresentacionRouterV1({
+    representacionModel: RepresentacionModel,
+    planoModel: PlanoModel,
+  })
 );
 
 app.use("/api/v1/planos", createPlanoRouterV1({ planoModel: PlanoModel }));

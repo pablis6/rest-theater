@@ -1,11 +1,15 @@
 import { Router } from "express";
 import { RepresentacionController } from "../controllers/representacion.js";
 
-export const createRepresentacionRouterV1 = ({ representacionModel }) => {
+export const createRepresentacionRouterV1 = ({
+  representacionModel,
+  planoModel,
+}) => {
   const representacionesRouter = Router();
 
   const representacionController = new RepresentacionController({
     representacionModel,
+    planoModel,
   });
 
   // Define your routes here

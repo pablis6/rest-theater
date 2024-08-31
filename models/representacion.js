@@ -1,50 +1,51 @@
-import { ObjectId } from "mongodb";
-import { client } from "./mongo.js";
+import { model } from "mongoose";
+import { representacionSchema } from "../schemas/representaciones.js";
 
-async function connect() {
-  try {
-    await client.connect();
-    const database = client.db("theater_db");
-    return database.collection("representaciones");
-  } catch (error) {
-    console.error("Error connecting to the database");
-    console.error(error);
-    await client.close();
-  }
-}
+export const Representacion = model(
+  "Representacion",
+  representacionSchema,
+  "representaciones"
+);
 
 export class RepresentacionModel {
-  static async getAll() {
-    const db = await connect();
-    return db.find({}).toArray();
+  static getAll() {
+    return Representacion.find({}, undefined, {
+      populate: ["grupo", "obra"],
+    });
   }
 
-  static async getById({ id }) {
-    const db = await connect();
-    return await db.findOne({ _id: new ObjectId(id) });
+  static getById({ id }) {
+    return Representacion.findById(id, undefined, {
+      populate: ["grupo", "obra"],
+    });
   }
 
-  static async create({ representacion }) {
-    const db = await connect();
+  static create({ representacion }) {
+    return new Representacion(this.depopulate(representacion))
+      .save()
+      .then((t) => t.populate(["grupo", "obra"]))
+      .then((t) => t);
+  }
 
-    const { insertedId } = await db.insertOne(representacion);
+  static update({ id, representacion }) {
+    return Representacion.findByIdAndUpdate(
+      id,
+      this.depopulate(representacion),
+      {
+        new: true,
+      }
+    ).populate(["grupo", "obra"]);
+  }
+
+  static delete({ id }) {
+    return Representacion.findByIdAndDelete(id);
+  }
+
+  static depopulate(representacion) {
     return {
       ...representacion,
-      id: insertedId,
+      obra: representacion.obra.id,
+      grupo: representacion.grupo.id,
     };
-  }
-
-  static async delete({ id }) {
-    const db = await connect();
-    return await db.deleteOne({ _id: new ObjectId(id) });
-  }
-
-  static async update({ id, representacion }) {
-    const db = await connect();
-    const { matchedCount } = await db.updateOne(
-      { _id: new ObjectId(id) },
-      { $set: representacion }
-    );
-    return matchedCount > 0 ? { id, ...representacion } : null;
   }
 }

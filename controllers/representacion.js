@@ -1,13 +1,16 @@
-import { validateRepresentacion } from "../schemas/representaciones.js";
+import { readJSON } from "../utils.js";
+
+const { butacas } = readJSON("./statics/plano.json");
 
 export class RepresentacionController {
-  constructor({ representacionModel }) {
+  constructor({ representacionModel, planoModel }) {
     this.representacionModel = representacionModel;
+    this.planoModel = planoModel;
   }
 
   getAll = async (req, res) => {
     const representaciones = await this.representacionModel.getAll();
-    res.json(representaciones);
+    return res.json(representaciones);
   };
 
   getById = async (req, res) => {
@@ -16,51 +19,64 @@ export class RepresentacionController {
     if (!representacion) {
       return res.status(404).json({ message: "Representación no encontrada." });
     }
-    res.json(representacion);
+    return res.json(representacion);
   };
 
   create = async (req, res) => {
-    const representacion = validateRepresentacion(req.body);
+    try {
+      const newRepresentacion = await this.representacionModel.create({
+        representacion: req.body,
+      });
 
-    if (representacion.error) {
-      return res
-        .status(400)
-        .json({ error: JSON.parse(representacion.error.message) });
+      const plano = {
+        representacion: newRepresentacion.id,
+        butacas,
+      };
+      const newPlano = await this.planoModel.create({ plano });
+
+      return res.json(newRepresentacion);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
     }
-    const newRepresentacion = await this.representacionModel.create({
-      representacion: representacion.data,
-    });
-
-    res.json({ id: newRepresentacion._id, ...newRepresentacion });
   };
 
   update = async (req, res) => {
-    const { id } = req.params;
-    const representacion = validateRepresentacion(req.body);
+    try {
+      const { id } = req.params;
 
-    if (representacion.error) {
-      return res
-        .status(400)
-        .json({ error: JSON.parse(representacion.error.message) });
+      const updated = await this.representacionModel.update({
+        id,
+        representacion: req.body,
+      });
+      if (!updated) {
+        return res
+          .status(404)
+          .json({ message: "Representación no encontrada." });
+      }
+      return res.json(updated);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
     }
-
-    const updated = await this.representacionModel.update({
-      id,
-      representacion: representacion.data,
-    });
-    if (!updated) {
-      return res.status(404).json({ message: "Representación no encontrada." });
-    }
-    res.json(updated);
   };
 
   delete = async (req, res) => {
-    const { id } = req.params;
-
-    const deleted = await this.representacionModel.delete({ id });
-    if (!deleted) {
-      return res.status(404).json({ message: "Representación no encontrada." });
+    try {
+      const { id } = req.params;
+      const deleted = await this.representacionModel.delete({ id });
+      if (!deleted) {
+        return res
+          .status(404)
+          .json({ message: "Representación no encontrada." });
+      }
+      const planoDeleted = await this.planoModel.deleteFromRepresentacion({
+        representacionId: id,
+      });
+      if (!planoDeleted) {
+        return res.status(404).json({ message: "Plano no encontrado." });
+      }
+      return res.json({ message: "Representación borrada." });
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
     }
-    return res.json({ message: "Representación borrada." });
   };
 }
