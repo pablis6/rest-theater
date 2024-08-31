@@ -1,0 +1,63 @@
+### Get all representaciones
+GET http://localhost:1993/api/v1/representaciones
+
+### Crear una representacion
+POST http://localhost:1993/api/v1/representaciones
+Content-Type: application/json
+
+{   
+    "obra": {
+        "name": "Aladdín",
+        "id": "668ed8de0555e46f815d4a34"
+    },
+    "fecha":"2024-07-25",
+    "sesion":"Tarde",
+    "grupo": {
+        "name":"Adultos",
+        "id":"668fa4becac8ffe2ae00b377"
+    }
+}
+
+# {
+#     "fecha": "2024-07-25",
+#     "grupo": "668fa4decac8ffe2ae00b379",
+#     "obra": "668ed8de0555e46f815d4a34",
+#     "sesion": "Mañana"
+# }
+
+### Obtiene una representacion
+GET http://localhost:1993/api/v1/representaciones/669122c95faf356fb70c4ce7
+
+### Borrar una representacion
+DELETE http://localhost:1993/api/v1/representaciones/669a76dfd8559184e43e0602
+
+### Actualizar una representacion
+PATCH http://localhost:1993/api/v1/representaciones/669127feabc52919063b6fd6
+Content-Type: application/json
+
+{
+    "id": "669127feabc52919063b6fd6",
+    "fecha": "2024-07-20",
+    "sesion": "Mañana",
+    "obra": "668ed8de0555e46f815d4a34",
+    "grupo": "668fa4becac8ffe2ae00b377"
+}
+
+
+### Actualizar una representacion con obra y grupo coomo objetos
+PATCH http://localhost:1993/api/v1/representaciones/66a1621ca16f46044837517d
+Content-Type: application/json
+
+{   
+    "id":"66a1621ca16f46044837517d",
+    "obra": {
+        "name": "Aladdín",
+        "id": "668ed8de0555e46f815d4a34"
+    },
+    "fecha":"2024-07-25",
+    "sesion":"Tarde",
+    "grupo": {
+        "name":"Adultos",
+        "id":"668fa4becac8ffe2ae00b377"
+    }
+}

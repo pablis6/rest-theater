@@ -1,0 +1,24 @@
+### Get all grupos
+GET http://localhost:1993/api/v1/grupos
+
+### Obtiene un grupo
+GET http://localhost:1993/api/v1/grupos/668fa4becac8ffe2ae00b377
+
+### Crear un grupo
+POST http://localhost:1993/api/v1/grupos
+Content-Type: application/json
+
+{
+    "name": "Adultos2"
+}
+
+### Borrar un grupo
+DELETE http://localhost:1993/api/v1/grupos/66a7886dce407a8d1833808f
+
+### Actualizar un grupo
+PATCH http://localhost:1993/api/v1/grupos/66a7886dce407a8d1833808f
+Content-Type: application/json
+
+{
+    "name": "Modificado"
+}
