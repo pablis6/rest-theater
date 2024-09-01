@@ -53,5 +53,5 @@ app.use("/api/v1/planos", createPlanoRouterV1({ planoModel: PlanoModel }));
 
 const PORT = process.env.PORT || 1993;
 app.listen(PORT, () => {
-  console.log("Server is running on port ${PORT}");
+  console.log("Server is running on port " + PORT);
 });
