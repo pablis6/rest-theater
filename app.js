@@ -28,6 +28,11 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  console.log(req.method, req.url, req.body);
+  next();
+});
+
 app.get("/", (req, res) => {
   res.send("<h1>Servidor despierto!</h1>");
 });
@@ -48,5 +53,5 @@ app.use("/api/v1/planos", createPlanoRouterV1({ planoModel: PlanoModel }));
 
 const PORT = process.env.PORT || 1993;
 app.listen(PORT, () => {
-  console.log("Server is running on port ${PORT}");
+  console.log("Server is running on port " + PORT);
 });
