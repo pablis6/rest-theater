@@ -28,6 +28,11 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  console.log(req.method, req.url, req.body);
+  next();
+});
+
 app.get("/", (req, res) => {
   res.send("<h1>Servidor despierto!</h1>");
 });
