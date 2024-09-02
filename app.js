@@ -28,13 +28,13 @@ app.use(
   })
 );
 
+app.get("/", (req, res) => {
+  res.send("<h1>Servidor despierto!</h1>");
+});
+
 app.use((req, res, next) => {
   console.log(req.method, req.url, req.body);
   next();
-});
-
-app.get("/", (req, res) => {
-  res.send("<h1>Servidor despierto!</h1>");
 });
 
 app.use("/api/v1/obras", createObraRouterV1({ obraModel: ObraModel }));
