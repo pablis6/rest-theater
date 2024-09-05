@@ -19,6 +19,7 @@ app.use(
       const whitelist = [
         "http://localhost:4200",
         "https://entradasteatromenesiano.onrender.com",
+        "https://entradasteatromenesiano-pre.onrender.com",
       ];
       if (whitelist.includes(origin) || !origin) {
         return callback(null, true);
