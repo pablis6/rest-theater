@@ -12,7 +12,7 @@ import { createRepresentacionRouterV1 } from "./routes/representacionesV1.js";
 
 const app = express();
 
-app.use(json());
+app.use(json({ limit: "50mb" }));
 app.use(
   cors({
     origin: (origin, callback) => {

@@ -1,6 +1,6 @@
 {
   "name": "rest-theater",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Servicios rest para aplicacion gestora de entradas de teatro.",
   "main": "app.js",
   "type": "module",
