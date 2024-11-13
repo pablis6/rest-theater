@@ -63,7 +63,7 @@ export class PlanoController {
       const newPlano = await this.planoModel.create({ plano: req.body });
       return res.json(newPlano);
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(400).json({ message: error.message });
     }
   };
 
@@ -82,7 +82,7 @@ export class PlanoController {
       }
       return res.json(updated);
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(400).json({ message: error.message });
     }
   };
 
@@ -98,7 +98,7 @@ export class PlanoController {
       }
       return res.json(updated);
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(400).json({ message: error.message });
     }
   };
 
@@ -118,7 +118,7 @@ export class PlanoController {
       }
       return res.json({ message: "Plano borrado." });
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(400).json({ message: error.message });
     }
   };
 }

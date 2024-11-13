@@ -22,7 +22,7 @@ export class GrupoController {
       const newGrupo = await this.grupoModel.create({ grupo: req.body });
       return res.json(newGrupo);
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(400).json({ message: error.message });
     }
   };
 
@@ -35,7 +35,7 @@ export class GrupoController {
       }
       return res.json(updated);
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(400).json({ message: error.message });
     }
   };
 
@@ -48,7 +48,7 @@ export class GrupoController {
       }
       return res.json({ message: "Grupo borrado." });
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(400).json({ message: error.message });
     }
   };
 }
