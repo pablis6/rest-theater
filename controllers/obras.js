@@ -22,7 +22,7 @@ export class ObraController {
       const newObra = await this.obraModel.create({ obra: req.body });
       return res.json(newObra);
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(400).json({ message: error.message });
     }
   };
 
@@ -35,7 +35,7 @@ export class ObraController {
       }
       res.json(updated);
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(400).json({ message: error.message });
     }
   };
 
@@ -48,7 +48,7 @@ export class ObraController {
       }
       return res.json({ message: "Obra borrada." });
     } catch (error) {
-      return res.status(400).json({ error: error.message });
+      return res.status(400).json({ message: error.message });
     }
   };
 }
