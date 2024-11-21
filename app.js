@@ -23,7 +23,7 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server, {
   connectionStateRecovery: {
-    maxDisconnectionDuration: 1 * 60 * 1000,
+    maxDisconnectionDuration: 10 * 60 * 1000,
   },
   cors: {
     origin: [
@@ -70,8 +70,8 @@ io.on("connection", async (socket) => {
       // Hacer la solicitud HTTP a la API REST para obtener el plano
       const response = await api.get(`/api/v1/planos/${representacionId}`);
 
-      // Emitir el evento al resto de los clientes
-      io.to(representacionId).emit("butacas", response.data);
+      // Emitir el evento a la nueva conexion
+      socket.emit("butacas", response.data);
     } catch (error) {
       console.error("Error al obtener el plano:", error);
     }
