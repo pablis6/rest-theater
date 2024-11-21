@@ -78,7 +78,11 @@ io.on("connection", (socket) => {
 });
 
 app.use((req, res, next) => {
-  console.log(req.method, req.url, req.body);
+  if (req.method === "PATCH" && req.url.includes("/api/v1/planos")) {
+    console.log(req.method, req.url, "Actualizando plano");
+  } else {
+    console.log(req.method, req.url, req.body);
+  }
   next();
 });
 
