@@ -22,6 +22,9 @@ const api = axios.create({
 const app = express();
 const server = createServer(app);
 const io = new Server(server, {
+  connectionStateRecovery: {
+    maxDisconnectionDuration: 1 * 60 * 1000,
+  },
   cors: {
     origin: [
       "http://localhost:4200",
@@ -52,15 +55,28 @@ app.get("/", (req, res) => {
   res.send("<h1>Servidor despierto!</h1>");
 });
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
   console.log("Nuevo cliente conectado");
+
   socket.on("disconnect", () => {
     console.log("Cliente desconectado");
   });
-  socket.on("join", (representacionId) => {
+
+  socket.on("join", async (representacionId) => {
     console.log("Unido al plano " + representacionId);
     socket.join(representacionId);
+    try {
+      socket;
+      // Hacer la solicitud HTTP a la API REST para obtener el plano
+      const response = await api.get(`/api/v1/planos/${representacionId}`);
+
+      // Emitir el evento al resto de los clientes
+      io.to(representacionId).emit("butacas", response.data);
+    } catch (error) {
+      console.error("Error al obtener el plano:", error);
+    }
   });
+
   socket.on("butacas", async (plano) => {
     try {
       // Hacer la solicitud HTTP a la API REST para actualizar el plano
